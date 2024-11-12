@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "BoringTabLayout"
 include(":app")
- 
+include(":BoringLayout")
