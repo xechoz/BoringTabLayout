@@ -5,7 +5,6 @@ import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
-import androidx.core.view.children
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 
