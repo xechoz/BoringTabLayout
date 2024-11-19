@@ -11,8 +11,8 @@ private const val TAG = "Indicator"
 /**
  * BoringTabLayout.onDraw
  *
- * [canvas] BoringTabLayout's canvas
- * [position], [positionOffset], [positionOffsetPixels] is from ViewPager's onPageScrolled
+ * canvas: BoringTabLayout's canvas
+ * position, positionOffset, positionOffsetPixels is from ViewPager's onPageScrolled
  */
 typealias DrawIndicator = (
     canvas: Canvas,

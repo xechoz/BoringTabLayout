@@ -73,7 +73,6 @@ custom attributes
         android:background="@color/purple_500"
         android:elevation="8dp"
         android:gravity="center"
-        android:
         android:layout_width="match_parent"
         android:layout_height="64dp"/>
 
