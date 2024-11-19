@@ -1,4 +1,7 @@
 # BoringTabLayout
+
+https://github.com/user-attachments/assets/f61ab0e2-3b30-4b93-8913-770b8bbf299f
+
 A simplified version of TabLayout, only addTab, onTabSelected, setIndicator.  
 If it does not meet your usage scenario, you should use the official TabLayout
 
@@ -83,5 +86,5 @@ custom attributes
 
 See Demo code in `MainActivity`
 
-# Demo
-+ [Demo MP4](./demo/SVID_20241120_020344_1.mp4)
+
+
