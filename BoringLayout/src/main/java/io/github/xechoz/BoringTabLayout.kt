@@ -11,14 +11,13 @@ import androidx.viewpager2.widget.ViewPager2
 /**
  * Simplified TabLayout, add any view as tabs, change tab style by your need
  *
- * This class only does the following 4 things:
+ * This class only does the following steps:
  *
  * 1. add views as tabs
- * 2. listen to view pager events
- * 3. switch view pager if tab click
- * 4. switch tab if view pager switch
+ * 2. switch view pager if tab click
+ * 3. switch tab if view pager switch by add lisenter to ViewPager's page change event
  *
- * **do not support scroll tabs**
+ * **do not support scroll tabs**, if you need a scrollable tabs, use TabLayout by androidx library
  *
  * usage:
  * 1. setTabs: add your tab views
@@ -61,10 +60,12 @@ class BoringTabLayout @JvmOverloads constructor(
 ) : LinearLayout(context, attrs) {
     private var fromPosition = -1
     private val scrolledState = PageScrolledState(-1, 0f, 0)
+
     /**
-     * custom indicator
+     * call by onDraw(Canvas), invalidate when a page scroll horizon
+     * default as an empty function, do nothing
      */
-    var drawIndicator: DrawIndicator = {_, _, _, _ ->}
+    var drawIndicator: DrawIndicator = { _, _, _, _ -> }
 
     /**
      * invoke when a tab is click or view pager switch a page
@@ -75,7 +76,7 @@ class BoringTabLayout @JvmOverloads constructor(
      *
      * androidx.viewpager2.widget.ViewPager2.registerOnPageChangeCallback
      */
-    var onTabSelected: (View, Int)->Unit = {_, _ -> }
+    var onTabSelected: (View, Int) -> Unit = { _, _ -> }
 
     /**
      * set tab views,
@@ -84,7 +85,7 @@ class BoringTabLayout @JvmOverloads constructor(
      *
      * yourTabView.setSelected is call when a tab selected changed
      */
-    fun setTabs(viewPager: ViewPager , tabs: List<View>) {
+    fun setTabs(viewPager: ViewPager, tabs: List<View>) {
         removeAllTabs()
         tabs.forEach { tabView ->
             addView(tabView)
@@ -107,6 +108,7 @@ class BoringTabLayout @JvmOverloads constructor(
                 positionOffsetPixels: Int
             ) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+                // trigger onDraw, to draw a custom indicator
                 scrolledState.position = position
                 scrolledState.positionOffset = positionOffset
                 scrolledState.positionOffsetPixels = positionOffsetPixels
@@ -140,6 +142,7 @@ class BoringTabLayout @JvmOverloads constructor(
                 positionOffsetPixels: Int
             ) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+                // trigger onDraw, to draw a custom indicator
                 scrolledState.position = position
                 scrolledState.positionOffset = positionOffset
                 scrolledState.positionOffsetPixels = positionOffsetPixels
