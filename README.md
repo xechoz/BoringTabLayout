@@ -11,12 +11,15 @@ Specifically, the following logic is implemented:
 
 # Usage
 
+
 1. create views of tabs: your list of views as tabs
 2. tabLayout.setTabs(viewPager: ViewPager, tabs: List<View>)
 3. Listen to tab selection status changes. override yourTabView.setSelected: change your tab style when selected changed
 4. (optional) tabLayout.setIndicator(DrawIndicator)
 5. (optional) BoringTabLayout is just a LinearLayout, and can use any LinearLayout attributes in your xml file
-6. 
+
+Demo
+
 ```kotlin
 class YourViewContainsTheTabLayout: FrameLayout {
     fun initTabLayout(
@@ -79,3 +82,6 @@ custom attributes
 ```
 
 See Demo code in `MainActivity`
+
+# Demo
++ [Demo MP4](./demo/SVID_20241120_020344_1.mp4)
