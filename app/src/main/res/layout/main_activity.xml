@@ -1,22 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:fitsSystemWindows="true"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
-    <!-- BoringTabLayout is just a LinearLayout,
-    and you can use any LinearLayout attributes -->
-    <io.github.xechoz.BoringTabLayout
-        android:id="@+id/tab_layout"
-        android:background="@color/purple_500"
-        android:elevation="8dp"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"/>
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/view_pager"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tabs width wrap_content" />
+
+        <!-- BoringTabLayout is just a LinearLayout,
+        and you can use any LinearLayout attributes -->
+        <io.github.xechoz.BoringTabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:background="@color/purple_500"
+            android:elevation="8dp"
+            android:gravity="center" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tabs width equals, LayoutParams.width = 0dp and weight = 1" />
+
+        <io.github.xechoz.BoringTabLayout
+            android:id="@+id/tab_layout_width_equals"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:background="@color/purple_700"
+            android:elevation="8dp"
+            android:gravity="center"
+            android:orientation="horizontal" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/view_pager2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 </LinearLayout>

@@ -4,43 +4,63 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Rect
 import android.graphics.Typeface
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.LinearLayout
 import androidx.activity.ComponentActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import io.github.xechoz.SwipeAnimateIndicator
 import io.github.xechoz.BoringTabLayout
+import io.github.xechoz.DrawIndicator
 import io.github.xechoz.LineIndicator
+import io.github.xechoz.SwipeAnimateIndicator
 import io.github.xechoz.boring.databinding.TabPageBinding
 import io.github.xechoz.boring.databinding.TabViewBinding
 
 class MainActivity : ComponentActivity() {
-    private val tabsData = (0..4).map { TabData("Tab $it") }
+    private val tabsData = listOf("Foo", "HelloWord", "Android", "Kotlin").map { TabData(it) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
 
+        // tab width wrap_content demo
         initTabLayout(
             tabLayout = findViewById(R.id.tab_layout),
             viewPager = findViewById(R.id.view_pager)
         )
 
-        initViewPager(viewPager = findViewById(R.id.view_pager))
+        initViewPager(viewPager = findViewById(R.id.view_pager), tabsData)
+
+        // tab width equals demo
+        initTabLayoutWidthEquals(
+            tabLayout = findViewById(R.id.tab_layout_width_equals),
+            viewPager = findViewById(R.id.view_pager2)
+        )
+
+        initViewPager(viewPager = findViewById(R.id.view_pager2), tabsData)
     }
 
     private fun initTabLayout(tabLayout: BoringTabLayout, viewPager: ViewPager2) {
         // create tabs from data
         val tabViews = tabsData.map { tabData ->
             val tabView = FooTabView(this) // your custom tab view
-            tabView.setData(tabData)
             // set layout params as your need
-            // tabView.layoutParams = LinearLayout.LayoutParams(100, ViewGroup.LayoutParams.WRAP_CONTENT)
+            tabView.layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+
+            tabView.setData(tabData)
+
             return@map tabView
         }
 
@@ -56,18 +76,57 @@ class MainActivity : ComponentActivity() {
         )
     }
 
-    private fun initViewPager(viewPager: ViewPager2) {
-        // your page adapter
-        viewPager.adapter = object : RecyclerView.Adapter<FooPage>() {
-            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FooPage {
-                return FooPage(parent)
-            }
+    private fun initTabLayoutWidthEquals(tabLayout: BoringTabLayout, viewPager: ViewPager2) {
+        // create tabs from data
+        val tabViews = tabsData.map { tabData ->
+            val tabView = FooTabView(this) // your custom tab view
+            // set layout params as your need
+            val params = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+            tabView.setLayoutParams(params)
+            tabView.setData(tabData)
 
-            override fun getItemCount() = tabsData.size
+            return@map tabView
+        }
 
-            override fun onBindViewHolder(holder: FooPage, position: Int) {
-                holder.onBindViewHolder(tabsData[position])
-            }
+        // add to layout
+        tabLayout.setTabs(viewPager = viewPager, tabs = tabViews)
+
+        // custom indicator
+//        tabLayout.drawIndicator = SwipeAnimateIndicator(
+//            tabViews, DotIndicator(
+//                tabViews
+//            )
+//        )
+
+//        tabLayout.drawIndicator = SwipeAnimateIndicator(
+//            tabViews, DotIndicator(
+//                tabViews
+//            )
+//        )
+
+        tabLayout.drawIndicator = SwipeAnimateIndicator(
+            tabViews, DrawableIndicator(
+                tabs = tabViews,
+                icon = resources.getDrawable(R.drawable.ic_launcher_foreground),
+                width = 100,
+                height = 100,
+                marginBottom = -24
+            )
+        )
+    }
+}
+
+private fun MainActivity.initViewPager(viewPager: ViewPager2, tabs: List<TabData>) {
+    // your page adapter
+    viewPager.adapter = object : RecyclerView.Adapter<FooPage>() {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FooPage {
+            return FooPage(parent)
+        }
+
+        override fun getItemCount() = tabs.size
+
+        override fun onBindViewHolder(holder: FooPage, position: Int) {
+            holder.onBindViewHolder(tabs[position])
         }
     }
 }
@@ -81,6 +140,7 @@ private class FooTabView @JvmOverloads constructor(
 
     fun setData(tabData: TabData) {
         binding.title.text = tabData.title
+        isSelected = false // default style
     }
 
     override fun setSelected(selected: Boolean) {
@@ -105,3 +165,59 @@ private class FooPage(
         binding.content.text = "Page ${tabData.title}"
     }
 }
+
+// demo indicator
+private fun DotIndicator(
+    tabs: List<View>
+): DrawIndicator {
+    val width = 24f
+    val height = 24f
+    val space = 8f
+
+    val rect = Rect()
+    val paint = Paint()
+    paint.style = Paint.Style.FILL
+    paint.color = Color.YELLOW
+
+    return fun(
+        canvas: Canvas,
+        position: Int,
+        positionOffset: Float,
+        positionOffsetPixels: Int
+    ) {
+        val tab = tabs[position]
+
+        // center, bottom of tab view
+        canvas.drawRoundRect(
+            tab.centerX - width/2f,
+            canvas.height - height - space,
+            tab.centerX + width/2f,
+            canvas.height - space ,
+            width, width, paint)
+    }
+}
+
+private fun DrawableIndicator(tabs: List<View>,
+                            icon: Drawable,
+                              width: Int,
+                              height: Int,
+                              marginBottom: Int,
+): DrawIndicator {
+    return fun(
+        canvas: Canvas,
+        position: Int,
+        positionOffset: Float,
+        positionOffsetPixels: Int
+    ) {
+        val tab = tabs[position]
+        icon.setBounds((tab.centerX - width/2).toInt(),
+            canvas.height - height - marginBottom,
+            (tab.centerX + width/2).toInt(),
+            canvas.height - marginBottom)
+        // center, bottom of tab view
+        icon.draw(canvas)
+    }
+}
+
+private val View.centerX: Float
+    get() = left + measuredWidth / 2f
