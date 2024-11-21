@@ -8,7 +8,7 @@ https://github.com/user-attachments/assets/3c0a6984-ce76-4e42-94f5-ddf9616a245d
 A simplified version of TabLayout, only addTab, onTabSelected, setIndicator.  
 If it does not meet your usage scenario, you should use the official TabLayout
 
-BoringTabLayout is a LinearLayout, 通过 监听 ViewPager 的 page 切换事件，切换选中的 tab view，仅此而已
+BoringTabLayout is a LinearLayout, which switches the selected tab view by listening to the page switching event of ViewPager, that's all
 
 Specifically, the following logic is implemented:
 1. add any views as tabs
@@ -22,7 +22,7 @@ Specifically, the following logic is implemented:
 2. tabLayout.setTabs(viewPager: ViewPager, tabs: List<View>)
 3. Listen to tab selection status changes. override yourTabView.setSelected: change your tab style when selected changed
 4. (optional) tabLayout.setIndicator(DrawIndicator)
-5. (optional) BoringTabLayout is just a LinearLayout, and can use any LinearLayout attributes in your xml file
+5. (optional) BoringTabLayout is just a LinearLayout, and you can use any LinearLayout attributes in your xml file and your tab view
 
 Demo
 
