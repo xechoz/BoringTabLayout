@@ -22,7 +22,10 @@ Specifically, the following logic is implemented:
 2. tabLayout.setTabs(viewPager: ViewPager, tabs: List<View>)
 3. Listen to tab selection status changes. override yourTabView.setSelected: change your tab style when selected changed
 4. (optional) tabLayout.setIndicator(DrawIndicator)
-5. (optional) BoringTabLayout is just a LinearLayout, and you can use any LinearLayout attributes in your xml file and your tab view
+
+BoringTabLayout is just a LinearLayout, and you can use any LinearLayout attributes in your xml file and your tab view.
+
+for example, set your tab view's LinearLayout.LayoutParams weight = 1, make all tab's width equals
 
 Demo
 
