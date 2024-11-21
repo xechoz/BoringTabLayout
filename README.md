@@ -1,6 +1,9 @@
 # BoringTabLayout
 
-https://github.com/user-attachments/assets/f61ab0e2-3b30-4b93-8913-770b8bbf299f
+
+
+https://github.com/user-attachments/assets/3c0a6984-ce76-4e42-94f5-ddf9616a245d
+
 
 A simplified version of TabLayout, only addTab, onTabSelected, setIndicator.  
 If it does not meet your usage scenario, you should use the official TabLayout
